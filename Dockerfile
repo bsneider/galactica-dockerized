@@ -10,13 +10,15 @@ RUN pip3 install --upgrade pip
 ADD requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
-# We add the banana boilerplate here
-ADD server.py .
 
 # Add your model weight files 
 # (in this case we have a python script)
 ADD download.py .
 RUN python3 download.py
+
+# Sanic webserver for serving the model
+ADD server.py .
+ADD index.html .
 
 # Add your custom app code, init() and inference()
 ADD app.py .

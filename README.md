@@ -5,6 +5,11 @@ This repo gives a basic framework for serving ML models in production using simp
 
 ## Quickstart:
 
+```bash
+docker build . -t galactica:latest -t galactica:2
+docker run --rm -it -p 8000:8000/tcp -v $(pwd)/index.html:/index.html galactica:latest
+```
+
 The repo is already set up to run a basic [HuggingFace GPTJ](https://huggingface.co/EleutherAI/gpt-j-6B) model.
 1. Run `pip3 install -r requirements.txt` to download dependencies.
 2. Run `python3 server.py` to start the server.

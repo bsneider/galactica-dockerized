@@ -1,0 +1,111 @@
+<html>
+
+<head>
+    <title>ChatGPT UI</title>
+    <style>
+        /* Add your custom styles here */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            width: 500px;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow-y: auto;
+        }
+
+        .message-container {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .message-container.user {
+            align-items: flex-end;
+        }
+
+        .message {
+            background-color: #ccc;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 80%;
+        }
+
+        .user .message {
+            background-color: #2196F3;
+            color: #fff;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .input-container input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            outline: none;
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .input-container input[type="submit"] {
+            background-color: #2196F3;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <!-- Add messages here -->
+        <div class="message-container bot">
+            <div class="message">Hello! How can I help you today?</div>
+        </div>
+        <div id="response" class="message-container user"></div>
+
+    </div>
+    <div class="input-container">
+        <form>
+            <input id="input" type="text" placeholder="Type your message here...">
+            <input type="submit" value="Send">
+        </form>
+    </div>
+</body>
+
+<!-- <form>
+    <input type="text" id="input">
+    <button type="submit">Submit</button>
+</form> -->
+<script>
+    const input = document.querySelector("#input");
+    const form = document.querySelector("form");
+    const responseDiv = document.querySelector("#response");
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        const res = await fetch("/inference", {
+            method: "POST",
+            body: JSON.stringify({ prompt: input.value }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const json = await res.json();
+        console.log(json);
+        responseDiv.innerHTML = json.output;
+        input.value = "";
+    };
+</script>
+</body>
+
+</html>
